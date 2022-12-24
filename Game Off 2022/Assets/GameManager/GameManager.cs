@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         get { return _level; }
         set { _level = value;
-            levelText.text = "Level " + _level;
+            // levelText.text = "Level " + _level;
         }
     }
     
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         set
         {
             _score = value;
-            scoreText.text = "SCORE: " + _score;
+            // scoreText.text = "SCORE: " + _score;
         }
     }
 
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         get { return _lives; }
         set { _lives = value;
-            livesText.text = "Lives: " + _lives;
+            // livesText.text = "Lives: " + _lives;
         }
     }
 
@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         get { return _health; }
         set { _health = value;
-            healthText.text = "HP: " + _health;
+            // healthText.text = "HP: " + _health;
         }
     }
 
@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SwitchState(State.MENU);
+        SubscribeToGameEvents();
     }
 
     // Update is called once per frame
@@ -163,6 +164,17 @@ public class GameManager : MonoBehaviour
         {
             SwitchState(State.GAMEOVER);
         }
+    }
+
+    private void SubscribeToGameEvents() {
+        GameEvents.current.onPickupCollected += OnPickupCollected;
+    }
+
+    private void OnPickupCollected(int pointValue)
+    {
+        Score += pointValue;
+        Debug.Log("Score has increased by " + pointValue +  " points!");
+        Debug.Log("Total Score: " + _score);
     }
 
     private void FocusOnGame(bool focus)
